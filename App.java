@@ -1,21 +1,14 @@
-public static void main(String[] args) throws InterruptedException {
-    ChromeOptions options = new ChromeOptions();
-    
-    // 1. Tell Selenium where your Chromium is located
-    options.setBinary("/usr/bin/chromium-browser"); 
-    
-    // 2. Add essential flags for Linux VirtualBox
-    options.addArguments("--headless");
-    options.addArguments("--no-sandbox"); // Fixes permissions issues
-    options.addArguments("--disable-dev-shm-usage"); // Fixes memory issues in VMs
+// Add this import at the top
+import org.openqa.selenium.chrome.ChromeDriverService;
 
-    // 3. Initialize ONLY this one driver
-    WebDriver driver = new ChromeDriver(options);
+// Inside your main method:
+ChromeOptions options = new ChromeOptions();
+options.setBinary("/usr/bin/chromium-browser"); // Path to your Chromium
+options.addArguments("--headless");
+options.addArguments("--no-sandbox");
+options.addArguments("--disable-dev-shm-usage");
 
-    try {
-        [span_4](start_span)driver.get("https://www.saucedemo.com/");[span_4](end_span)
-        [span_5](start_span)// ... your login logic ...[span_5](end_span)
-    } finally {
-        driver.quit(); 
-    }
-}
+// This line is the "Magic Fix": it tells Selenium exactly where the driver is
+System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+
+WebDriver driver = new ChromeDriver(options);
