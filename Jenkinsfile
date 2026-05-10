@@ -24,9 +24,9 @@ stage('Check Target Folder') {
  sh 'ls -l target'
  }
 } 
- stage('Run Application') {
+stage('Run Application') {
     steps {
-        // Replace the java -jar command with this:
+        // This command automatically includes all Selenium dependencies
         sh 'mvn exec:java -Dexec.mainClass="com.example.App"'
     }
 }
