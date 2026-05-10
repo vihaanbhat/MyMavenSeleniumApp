@@ -25,9 +25,10 @@ stage('Check Target Folder') {
  }
 } 
  stage('Run Application') {
- steps {
- sh 'java -jar target/MyMavenSeleniumApp01-1.0-SNAPSHOT.jar'
- }
+    steps {
+        // Replace the java -jar command with this:
+        sh 'mvn exec:java -Dexec.mainClass="com.example.App"'
+    }
 }
 }
  post {
