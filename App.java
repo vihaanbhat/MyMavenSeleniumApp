@@ -1,27 +1,33 @@
-public static void main(String[] args) {
-    // 1. Manually set the driver path to the one you installed via apt
-    System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+package com.example;
 
-    ChromeOptions options = new ChromeOptions();
-    
-    // 2. Set the path to the Chromium browser
-    options.setBinary("/usr/bin/chromium-browser");
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
-    // 3. ESSENTIAL FLAGS for Ubuntu VirtualBox/Jenkins
-    options.addArguments("--headless=new"); // Runs without a GUI
-    options.addArguments("--no-sandbox");    // Required for Linux root/jenkins users
-    options.addArguments("--disable-dev-shm-usage"); // Prevents memory crashes in VMs
-    options.addArguments("--remote-allow-origins=*"); // Fixes connection issues
+public class App 
+{
+    public static void main(String[] args)
+    {
+        //  Add this block
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");   // required for Jenkins
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
 
-    WebDriver driver = new ChromeDriver(options);
+        //  Replace driver creation
+        WebDriver driver = new ChromeDriver(options);
 
-    try {
         driver.get("https://www.saucedemo.com/");
-        System.out.println("Page title is: " + driver.getTitle());
-        // Your login code...
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
+        
+        //  maximize may fail in headless, so optional
+        // driver.manage().window().maximize();
+
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+        driver.findElement(By.id("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        // good practice
         driver.quit();
     }
 }
